@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :api_show, :api_next]
 
   def index
     @posts = Post.all
@@ -22,6 +22,15 @@ class PostsController < ApplicationController
 
   def show
     @comment = @post.comments.build
+  end
+
+  def api_show
+    render json: @post
+  end
+
+  def api_next
+    @next_post = @post.next
+    render json: @next_post
   end
 
   def edit

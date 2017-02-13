@@ -12,4 +12,9 @@ class Post < ApplicationRecord
       self.tags << tag unless self.tags.include?(tag)
     end
   end
+
+  def next
+    binding.pry
+    self.where("id > ", id).first
+  end
 end

@@ -10,9 +10,7 @@
     <% @post.comments.each do |comment| %>
       <ol>
         <li><%= comment.content %> </li>
-        <% if comment.user == current_user %>
-          <%= button_to "x", { controller: :comments, action: 'destroy', id: comment.id, comment: { post_id: @post.id } }, method: :delete %>
-        <% end %>
+
       </ol>
     <% end %>
   </ul>
@@ -22,4 +20,6 @@
     <%= f.hidden_field(:post_id) %>
     <%= f.submit %>
   <% end %>
+  <%= button_tag 'Previous', class: 'js-prev', data: {id: @post.id} %>
+  <%= button_tag 'Next', class: 'js-next', data: {id: @post.id} %>
 </div>
