@@ -14,7 +14,12 @@ class Post < ApplicationRecord
   end
 
   def next
-    binding.pry
-    self.where("id > ", id).first
+    post = Post.where("id > ?", id).first
+
+    if post
+      post
+    else
+      Post.first
+    end
   end
 end

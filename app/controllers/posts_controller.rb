@@ -1,9 +1,13 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :api_show, :api_next]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :next]
 
   def index
     @posts = Post.all
+    respond_to do |f|
+      f.html
+      f.json {render json: @posts}
+    end
   end
 
   def new
@@ -20,8 +24,17 @@ class PostsController < ApplicationController
     end
   end
 
+  def next
+    @next_post = @post.next
+    render json: @next_post
+  end
+
   def show
     @comment = @post.comments.build
+    respond_to do |f|
+      f.html
+      f.json {render json: @post}
+    end
   end
 
   def api_show

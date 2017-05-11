@@ -1,55 +1,73 @@
-$(function() {
-  bindClick()
+$(() => {
+  bindClickHandlers()
 })
 
-
-function bindClick() {
-  $('.js-prev').on('click', function(e) {
-    const id = $(this).data('id')
-    $('#app-container').html('')
-
-    fetch(`/api/posts/next`)
-      .then(res => res.json() )
-      .then(post => {
-        const newPost = new Post(post.id, post.title, post.content, post.comments, post.user)
-        const postHTML = newPost.formatPost()
-        $('#app-container').append(postHTML)
-      })
-      .catch(err => console.log(err))
-      history.pushState(null, null, `/posts/${id - 1}`)
+const bindClickHandlers = () => {
+  $('.all_posts').on('click', e => {
+    e.preventDefault()
+    history.pushState(null, null, "posts")
+    getPosts()
 
   })
 
-  $('.js-next').on('click', function(e) {
+  $(document).on('click', ".show_link", function(e) {
+    e.preventDefault()
     $('#app-container').html('')
-    const id = $(this).data('id')
-    fetch(`/api/posts/${id + 1}`)
-      .then(res => res.json() )
-      .then(post => {
-        const newPost = new Post(post.id, post.title, post.content, post.comments, post.user)
-        const postHTML = newPost.formatPost()
-        $('#app-container').append(postHTML)
-      })
-      .catch(err => console.log(err))
-    history.pushState(null, null, `/posts/${id + 1}`)
+    let id = $(this).attr('data-id')
+    fetch(`/posts/${id}.json`)
+    .then(res => res.json())
+    .then(post => {
+      let newPost = new Post(post)
+
+      let postHtml = newPost.formatShow()
+
+      $('#app-container').append(postHtml)
+    })
+  })
+
+  $(document).on('click', 'next-post', function() {
+    let id = $(this).attr('data-id')
+    fetch(`posts/${id}/next`)
+
   })
 }
 
-function Post(id, title, content, comments, user) {
-  this.id = id
-  this.title = title
-  this.content = content
-  this.comments = comments
-  this.user = user
+const getPosts = () => {
+  fetch(`/posts.json`)
+    .then(res => res.json())
+    .then(posts => {
+       $('#app-container').html('')
+       posts.forEach(post => {
+         let newPost = new Post(post)
+
+         let postHtml = newPost.formatIndex()
+
+         $('#app-container').append(postHtml)
+       })
+    })
 }
 
-Post.prototype.formatPost = function() {
-  let html = ''
+function Post(post) {
+  this.id = post.id
+  this.title = post.title
+  this.content = post.content
+  this.user = post.user
+  this.comments = post.comments
 
-  html = `
-    <h1>Title: ${this.title}</h1>
-    <h2>Author: ${this.user.email}</h2>
-    <p>${this.content}</p>
+
+}
+
+Post.prototype.formatIndex = function(){
+  let postHtml = `
+    <a href="/posts/${this.id}" data-id="${this.id}" class="show_link"><h1>${this.title}</h1></a>
   `
-  return html
+  return postHtml
+}
+
+Post.prototype.formatShow = function(){
+  let postHtml = `
+    <h3>${this.title}</h3>
+    <button class="next-post">Next</button>
+  `
+  return postHtml
 }

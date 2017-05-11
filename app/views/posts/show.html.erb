@@ -8,10 +8,12 @@
   </p>
   <ul>
     <% @post.comments.each do |comment| %>
-      <ol>
-        <li><%= comment.content %> </li>
 
-      </ol>
+      <% if comment.content %>
+        <li><%= comment.content %> </li>
+      <% end %>
+
+
     <% end %>
   </ul>
   <%= form_for @comment do |f| %>

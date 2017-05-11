@@ -1,6 +1,6 @@
 <% @posts.each do |post| %>
   <div>
-    <h1>Title: <%= link_to  post.title, post_path(post), { style: 'text-decoration:none; color: black;'} %> </h1>
+    <h1><%= link_to  "Title: #{post.title}", post_path(post), { style: 'text-decoration:none; color: black;'} %> </h1>
     <h4>Author: <%= post.user.email %></h4>
     Tags: <span style="font-size: 12px; color: teal;"><%= post.tags.collect{|tag| tag.name}.join(', ') %></span>
     <p><%= post.content.truncate(50) %></p>

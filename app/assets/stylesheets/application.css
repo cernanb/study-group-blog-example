@@ -13,3 +13,56 @@
  *= require_tree .
  *= require_self
  */
+
+.navbar-header {
+  width: 90%
+}
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+div#flash_notice {
+  background-color: green;
+  height: 30px;
+  text-align: center;
+  margin-bottom: 5px;
+  padding: 10px auto 0;
+  color: white;
+  opacity: 0.5;
+  margin: auto;
+  width: 60%;
+}
+div#flash_error,
+div#flash_alert,
+div#error_explanation li {
+  background-color: red;
+  height: 30px;
+  text-align: center;
+  margin-bottom: 5px;
+  padding: 10px auto 0;
+  color: white;
+  opacity: 0.5;
+  width: 60%;
+  margin: auto
+}
+
+.form-control {
+  width: 60%;
+  margin: auto;
+}
+
+.jumbotron {
+  margin-top: 50px;
+}
+
+hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
